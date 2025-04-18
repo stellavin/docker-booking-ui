@@ -59,7 +59,7 @@ const DoctorCard = ({ doctor }) => (
       </button>
       <div className="flex items-center gap-1 text-sm text-blue-900">
         <FaStethoscope />
-        {doctor?.doctorCount} Patients Seen
+        {doctor?.patientsCount} Patients Seen
       </div>
     </div>
   </div>
