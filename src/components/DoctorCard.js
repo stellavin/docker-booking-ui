@@ -28,7 +28,7 @@ const DoctorCard = ({ doctor }) => (
 
     {/* Badge, Rating, and Name */}
     <div className="mt-3 flex items-center gap-2">
-      <span className="text-sm text-white bg-green-100 text-green-600 px-2 py-0.5 rounded">{doctor.specialty}</span>
+      <span className="text-sm text-gray-600 bg-green-100 text-green-600 px-2 py-0.5 rounded">{doctor.specialty}</span>
       <div className="flex items-center text-yellow-500 text-sm ml-auto">
         {[...Array(5)].map((_, i) => (
           <FaStar key={i} />
@@ -52,7 +52,7 @@ const DoctorCard = ({ doctor }) => (
     {/* Buttons and Doctor Count */}
     <div className="flex items-center justify-between">
       <button
-        className="bg-blue-600 hover:bg-green-500 transition-colors text-white text-sm font-medium px-4 py-2 rounded-lg flex items-center gap-1"
+        className="bg-navbar hover:bg-green-500 transition-colors text-white text-sm font-medium px-4 py-2 rounded-lg flex items-center gap-1"
         onClick={() => alert(`Booking appointment with ${doctor.name}`)}
       >
         Book Today <HiArrowRight />

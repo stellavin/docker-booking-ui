@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        navbar: '#031828',
+        navbar: '#021629',
       },
       fontFamily: {
         montserrat: ['Montserrat', 'sans-serif'],
