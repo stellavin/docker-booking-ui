@@ -17,7 +17,8 @@ const customStyles = {
     right: 'auto',
     bottom: 'auto',
     transform: 'translate(-50%, -50%)',
-    width: '440px',
+    width: '90%',
+    maxWidth: '440px',
     padding: '24px',
     borderRadius: '16px',
     border: 'none',
@@ -94,14 +95,16 @@ const BookingModal = ({ isOpen, onClose, doctorName, availability, doctorId, spe
       isOpen={isOpen}
       onRequestClose={onClose}
       style={customStyles}
-      contentLabel="Book Appointment Modal"
+      contentLabel={`Book Appointment with ${doctorName}`}
+      aria-describedby="booking-modal-description"
     >
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">Book Appointment</h2>
+        <h2 className="text-xl sm:text-2xl font-bold">Book Appointment</h2>
         <button 
           onClick={onClose}
-          className="text-gray-400 hover:text-gray-600"
+          className="text-gray-400 hover:text-gray-600 p-2"
+          aria-label="Close booking modal"
         >
           ✕
         </button>
@@ -110,12 +113,16 @@ const BookingModal = ({ isOpen, onClose, doctorName, availability, doctorId, spe
       {/* Doctor Info */}
       <div className="mb-6">
         <div className="text-gray-600 mb-1">Doctor:</div>
-        <div className="text-xl font-semibold">{doctorName}</div>
+        <div className="text-lg sm:text-xl font-semibold">{doctorName}</div>
       </div>
 
       {/* Current Booking Warning */}
       {currentBooking && (
-        <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+        <div 
+          className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg"
+          role="alert"
+          aria-label="Current booking information"
+        >
           <p className="text-yellow-800">
             You currently have an appointment at {currentBooking.time}. 
             Selecting a new time will replace your existing appointment.
@@ -125,8 +132,12 @@ const BookingModal = ({ isOpen, onClose, doctorName, availability, doctorId, spe
 
       {/* Time Slots */}
       <div>
-        <h3 className="text-xl font-semibold mb-4">Available Time Slots</h3>
-        <div className="grid grid-cols-2 gap-3 mb-6">
+        <h3 className="text-lg sm:text-xl font-semibold mb-4">Available Time Slots</h3>
+        <div 
+          className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6"
+          role="group"
+          aria-label="Available appointment times"
+        >
           {availability?.map((slot) => {
             const booked = isSlotBooked(slot);
             return (
@@ -134,6 +145,8 @@ const BookingModal = ({ isOpen, onClose, doctorName, availability, doctorId, spe
                 key={slot}
                 onClick={() => !booked && setSelectedSlot(slot)}
                 disabled={booked}
+                aria-pressed={selectedSlot === slot}
+                aria-disabled={booked}
                 className={`
                   py-3 px-4 rounded-lg border text-center transition-colors
                   ${selectedSlot === slot 
@@ -156,6 +169,7 @@ const BookingModal = ({ isOpen, onClose, doctorName, availability, doctorId, spe
       <button
         onClick={handleConfirm}
         disabled={!selectedSlot}
+        aria-disabled={!selectedSlot}
         className={`
           w-full py-3 rounded-lg text-center font-medium transition-colors
           ${!selectedSlot 
@@ -171,6 +185,11 @@ const BookingModal = ({ isOpen, onClose, doctorName, availability, doctorId, spe
           : 'Confirm Appointment'
         }
       </button>
+
+      {/* Hidden description for screen readers */}
+      <div id="booking-modal-description" className="sr-only">
+        Book an appointment with {doctorName}. Select from available time slots and confirm your booking.
+      </div>
     </Modal>
   );
 };

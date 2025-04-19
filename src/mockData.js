@@ -15,7 +15,7 @@ export const doctors = [
     id: 2,
     name: 'Dr. Michael Chen',
     specialty: 'Dermatologist',
-    photo: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    photo: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
     rating: 4.9,
     location: 'Skin Care Clinic',
     patientsCount: 850,
@@ -25,7 +25,7 @@ export const doctors = [
     id: 3,
     name: 'Dr. Emily Wilson',
     specialty: 'Pediatrician',
-    photo: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    photo: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
     rating: 4.7,
     location: 'Children\'s Medical Center',
     patientsCount: 1500,
@@ -36,60 +36,60 @@ export const doctors = [
     name: "Dr. Carlos Rivera",
     specialty: "Orthopedics",
     rating: 4.6,
-    availability: [ '09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'],
+    availability: ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'],
     location: "Valley Medical Center",
     patientsCount: 870,
-    photo: doctorImg
+    photo: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
   {
     id: 5,
     name: "Dr. Aisha Patel",
     specialty: "Neurology",
     rating: 4.7,
-    availability: [ '09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'],
+    availability: ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'],
     location: "Neuro Care Hospital",
     patientsCount: 1050,
-    photo: doctorImg
+    photo: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
   {
     id: 6,
     name: "Dr. James Smith",
     specialty: "Ophthalmology",
     rating: 4.4,
-    availability: [ '09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'],
+    availability: ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'],
     location: "Vision Plus Clinic",
     patientsCount: 760,
-    photo: doctorImg
+    photo: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
   {
     id: 7,
     name: "Dr. Nina Rossi",
     specialty: "Gynecology",
     rating: 4.9,
-    availability: [ '09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'],
+    availability: ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'],
     location: "Women's Wellness Center",
     patientsCount: 1320,
-    photo: doctorImg
+    photo: 'https://images.unsplash.com/photo-1527613426441-4da17471b66d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
   {
     id: 8,
     name: "Dr. Omar Farouk",
     specialty: "General Surgery",
     rating: 4.3,
-    availability: [ '09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'],
+    availability: ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'],
     location: "Metro General Hospital",
     patientsCount: 1100,
-    photo: doctorImg
+    photo: 'https://images.unsplash.com/photo-1612531386530-97286d97c2d2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   },
   {
     id: 9,
     name: "Dr. Emily Zhang",
     specialty: "ENT (Ear, Nose, Throat)",
     rating: 4.6,
-    availability: [ '09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'],
+    availability: ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'],
     location: "Central ENT Clinic",
     patientsCount: 900,
-    photo: doctorImg
+    photo: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
   }
 ];
 
