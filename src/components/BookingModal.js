@@ -1,106 +1,118 @@
 import React, { useState } from 'react';
+import Modal from 'react-modal';
+
+// Bind modal to your appElement for accessibility
+Modal.setAppElement('#root');
+
+const customStyles = {
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backdropFilter: 'blur(1px)',
+    zIndex: 999
+  },
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    transform: 'translate(-50%, -50%)',
+    width: '440px',
+    padding: '24px',
+    borderRadius: '16px',
+    border: 'none',
+    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+  }
+};
 
 const BookingModal = ({ isOpen, onClose, doctorName, availability, doctorId, specialty, location }) => {
-
   const [selectedSlot, setSelectedSlot] = useState(null);
-
-  if (!isOpen) return null;
 
   const handleConfirm = () => {
     if (selectedSlot) {
-      // Get existing appointments from localStorage
       const existingAppointments = JSON.parse(localStorage.getItem('appointments') || '[]');
       
-      // Create new appointment
       const newAppointment = {
-        id: Date.now(), // Use timestamp as unique ID
+        id: Date.now(),
         doctorId,
         doctorName,
         specialty,
-        date: new Date().toISOString().split('T')[0], // Today's date
+        date: new Date().toISOString().split('T')[0],
         time: selectedSlot,
         location,
         status: 'Upcoming'
       };
 
-      // Remove any existing appointment for this doctor
       const updatedAppointments = existingAppointments.filter(
         appointment => appointment.doctorId !== doctorId
       );
 
-      // Add the new appointment
       updatedAppointments.push(newAppointment);
-
-      // Save to localStorage
       localStorage.setItem('appointments', JSON.stringify(updatedAppointments));
-
-      alert(`Appointment booked with ${doctorName} at ${selectedSlot}`);
       onClose();
     }
   };
 
-  // Get existing appointments to check current booking
-  const existingAppointments = JSON.parse(localStorage.getItem('appointments') || '[]');
-  const currentBooking = existingAppointments.find(
-    appointment => appointment.doctorId === doctorId
-  );
-
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-full max-w-md transform transition-all duration-300 ease-in-out">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">Book Appointment</h2>
-          <button 
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 transition-colors"
-          >
-            ✕
-          </button>
-        </div>
-        
-        <p className="text-gray-600 mb-4">Doctor: {doctorName}</p>
-        
-        {currentBooking && (
-          <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded">
-            <p className="text-yellow-800">
-              You currently have an appointment at {currentBooking.time}. 
-              Booking a new time will replace your existing appointment.
-            </p>
-          </div>
-        )}
-        
-        <div className="mb-6">
-          <h3 className="text-lg font-semibold mb-2">Available Time Slots</h3>
-          <div className="grid grid-cols-2 gap-2">
-            {availability?.map((slot) => (
-              <button
-                key={slot}
-                onClick={() => setSelectedSlot(slot)}
-                className={`p-2 rounded border transition-colors duration-200 ${
-                  selectedSlot === slot
-                    ? 'bg-blue-500 text-white border-blue-500'
-                    : 'border-gray-300 hover:border-blue-500'
-                }`}
-              >
-                {slot}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <button
-          onClick={handleConfirm}
-          disabled={!selectedSlot}
-          className={`w-full py-2 rounded transition-colors duration-200 ${
-            selectedSlot
-              ? 'bg-blue-500 text-white hover:bg-blue-600'
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-          }`}
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onClose}
+      style={customStyles}
+      contentLabel="Book Appointment Modal"
+    >
+      {/* Header */}
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">Book Appointment</h2>
+        <button 
+          onClick={onClose}
+          className="text-gray-400 hover:text-gray-600"
         >
-          {currentBooking ? 'Replace Existing Appointment' : 'Confirm Appointment'}
+          ✕
         </button>
       </div>
-    </div>
+
+      {/* Doctor Info */}
+      <div className="mb-6">
+        <div className="text-gray-600 mb-1">Doctor:</div>
+        <div className="text-xl font-semibold">{doctorName}</div>
+      </div>
+
+      {/* Time Slots */}
+      <div>
+        <h3 className="text-xl font-semibold mb-4">Available Time Slots</h3>
+        <div className="grid grid-cols-2 gap-3 mb-6">
+          {availability?.map((slot) => (
+            <button
+              key={slot}
+              onClick={() => setSelectedSlot(slot)}
+              className={`
+                py-3 px-4 rounded-lg border text-center
+                ${selectedSlot === slot 
+                  ? 'bg-blue-500 text-white border-blue-500' 
+                  : 'bg-white border-gray-200 hover:border-blue-500'
+                }
+              `}
+            >
+              {slot}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Confirm Button */}
+      <button
+        onClick={handleConfirm}
+        disabled={!selectedSlot}
+        className={`
+          w-full py-3 rounded-lg text-center font-medium
+          ${!selectedSlot 
+            ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+            : 'bg-blue-500 text-white hover:bg-blue-600'
+          }
+        `}
+      >
+        {selectedSlot ? 'Confirm Appointment' : 'Select a Time Slot'}
+      </button>
+    </Modal>
   );
 };
 
