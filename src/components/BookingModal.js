@@ -11,6 +11,16 @@ const BookingModal = ({ isOpen, onClose, doctorName, availability, doctorId, spe
       // Get existing appointments from localStorage
       const existingAppointments = JSON.parse(localStorage.getItem('appointments') || '[]');
       
+      // Check if the slot is already booked for this doctor
+      const isSlotBooked = existingAppointments.some(
+        appointment => appointment.doctorId === doctorId && appointment.time === selectedSlot
+      );
+
+      if (isSlotBooked) {
+        alert('This time slot is already booked. Please select another time.');
+        return;
+      }
+
       // Create new appointment
       const newAppointment = {
         id: Date.now(), // Use timestamp as unique ID
@@ -32,6 +42,12 @@ const BookingModal = ({ isOpen, onClose, doctorName, availability, doctorId, spe
     }
   };
 
+  // Get existing appointments to check booked slots
+  const existingAppointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+  const bookedSlots = existingAppointments
+    .filter(appointment => appointment.doctorId === doctorId)
+    .map(appointment => appointment.time);
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-6 w-full max-w-md transform transition-all duration-300 ease-in-out">
@@ -50,19 +66,25 @@ const BookingModal = ({ isOpen, onClose, doctorName, availability, doctorId, spe
         <div className="mb-6">
           <h3 className="text-lg font-semibold mb-2">Available Time Slots</h3>
           <div className="grid grid-cols-2 gap-2">
-            {availability?.map((slot) => (
-              <button
-                key={slot}
-                onClick={() => setSelectedSlot(slot)}
-                className={`p-2 rounded border transition-colors duration-200 ${
-                  selectedSlot === slot
-                    ? 'bg-blue-500 text-white border-blue-500'
-                    : 'border-gray-300 hover:border-blue-500'
-                }`}
-              >
-                {slot}
-              </button>
-            ))}
+            {availability?.map((slot) => {
+              const isBooked = bookedSlots.includes(slot);
+              return (
+                <button
+                  key={slot}
+                  onClick={() => !isBooked && setSelectedSlot(slot)}
+                  disabled={isBooked}
+                  className={`p-2 rounded border transition-colors duration-200 ${
+                    selectedSlot === slot
+                      ? 'bg-blue-500 text-white border-blue-500'
+                      : isBooked
+                        ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
+                        : 'border-gray-300 hover:border-blue-500'
+                  }`}
+                >
+                  {slot} {isBooked && '(Booked)'}
+                </button>
+              );
+            })}
           </div>
         </div>
 
