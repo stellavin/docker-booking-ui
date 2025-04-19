@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const BookingModal = ({ isOpen, onClose, doctorName,availability }) => {
+const BookingModal = ({ isOpen, onClose, doctorName, availability }) => {
 
   const [selectedSlot, setSelectedSlot] = useState(null);
 
@@ -15,12 +15,12 @@ const BookingModal = ({ isOpen, onClose, doctorName,availability }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-full max-w-md">
+      <div className="bg-white rounded-lg p-6 w-full max-w-md transform transition-all duration-300 ease-in-out">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Book Appointment</h2>
           <button 
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
+            className="text-gray-500 hover:text-gray-700 transition-colors"
           >
             ✕
           </button>
@@ -35,7 +35,7 @@ const BookingModal = ({ isOpen, onClose, doctorName,availability }) => {
               <button
                 key={slot}
                 onClick={() => setSelectedSlot(slot)}
-                className={`p-2 rounded border ${
+                className={`p-2 rounded border transition-colors duration-200 ${
                   selectedSlot === slot
                     ? 'bg-blue-500 text-white border-blue-500'
                     : 'border-gray-300 hover:border-blue-500'
@@ -50,7 +50,7 @@ const BookingModal = ({ isOpen, onClose, doctorName,availability }) => {
         <button
           onClick={handleConfirm}
           disabled={!selectedSlot}
-          className={`w-full py-2 rounded ${
+          className={`w-full py-2 rounded transition-colors duration-200 ${
             selectedSlot
               ? 'bg-blue-500 text-white hover:bg-blue-600'
               : 'bg-gray-300 text-gray-500 cursor-not-allowed'

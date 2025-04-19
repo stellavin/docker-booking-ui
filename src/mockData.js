@@ -3,33 +3,33 @@ import doctorImg from './assets/doctor.jpg';
 export const doctors = [
   {
     id: 1,
-    name: "Dr. Sarah Johnson",
-    specialty: "Cardiology",
+    name: 'Dr. Sarah Johnson',
+    specialty: 'Cardiologist',
+    photo: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
     rating: 4.8,
-    availability: [ '09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'],
-    location: "Downtown Clinic",
+    location: 'City Hospital',
     patientsCount: 1200,
-    photo: doctorImg
+    availability: ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM']
   },
   {
     id: 2,
-    name: "Dr. Ahmed Khan",
-    specialty: "Dermatology",
-    rating: 4.5,
-    availability: [ '09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'],
-    location: "City Hospital",
-    patientsCount: 980,
-    photo: doctorImg
+    name: 'Dr. Michael Chen',
+    specialty: 'Dermatologist',
+    photo: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    rating: 4.9,
+    location: 'Skin Care Clinic',
+    patientsCount: 850,
+    availability: ['10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM']
   },
   {
     id: 3,
-    name: "Dr. Mei Lin",
-    specialty: "Pediatrics",
-    rating: 4.9,
-    availability: [ '09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'],
-    location: "Sunrise Health",
+    name: 'Dr. Emily Wilson',
+    specialty: 'Pediatrician',
+    photo: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    rating: 4.7,
+    location: 'Children\'s Medical Center',
     patientsCount: 1500,
-    photo: doctorImg
+    availability: ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM']
   },
   {
     id: 4,
@@ -94,3 +94,36 @@ export const doctors = [
 ];
 
 export const specialties = [...new Set(doctors.map(doc => doc.specialty))];
+
+export const appointments = [
+  {
+    id: 1,
+    doctorId: 1,
+    doctorName: 'Dr. Sarah Johnson',
+    specialty: 'Cardiologist',
+    date: '2024-03-15',
+    time: '10:00 AM',
+    location: 'City Hospital, Floor 3',
+    status: 'Upcoming'
+  },
+  {
+    id: 2,
+    doctorId: 2,
+    doctorName: 'Dr. Michael Chen',
+    specialty: 'Dermatologist',
+    date: '2024-03-20',
+    time: '02:30 PM',
+    location: 'Skin Care Clinic, Room 101',
+    status: 'Upcoming'
+  },
+  {
+    id: 3,
+    doctorId: 3,
+    doctorName: 'Dr. Emily Wilson',
+    specialty: 'Pediatrician',
+    date: '2024-03-10',
+    time: '11:00 AM',
+    location: 'Children\'s Medical Center, Wing B',
+    status: 'Completed'
+  }
+];
