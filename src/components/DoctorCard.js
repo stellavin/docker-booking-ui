@@ -71,6 +71,7 @@ const DoctorCard = ({ doctor }) => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         doctorName={doctor.name}
+        availability={doctor.availability}
       />
     </div>
   );

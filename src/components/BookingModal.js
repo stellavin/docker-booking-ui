@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 
-const BookingModal = ({ isOpen, onClose, doctorName }) => {
-  // Mock time slots data
-  const timeSlots = [
-    '09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'
-  ];
+const BookingModal = ({ isOpen, onClose, doctorName,availability }) => {
 
   const [selectedSlot, setSelectedSlot] = useState(null);
 
@@ -35,7 +31,7 @@ const BookingModal = ({ isOpen, onClose, doctorName }) => {
         <div className="mb-6">
           <h3 className="text-lg font-semibold mb-2">Available Time Slots</h3>
           <div className="grid grid-cols-2 gap-2">
-            {timeSlots.map((slot) => (
+            {availability?.map((slot) => (
               <button
                 key={slot}
                 onClick={() => setSelectedSlot(slot)}
