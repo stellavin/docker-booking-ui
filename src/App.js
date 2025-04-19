@@ -5,6 +5,7 @@ import Appointments from './components/Appointments';
 import { FaHome, FaCalendarAlt, FaSearch, FaFilter, FaStar } from 'react-icons/fa';
 import { doctors, specialties } from './mockData';
 import { ModalProvider } from './context/ModalContext';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   const [currentView, setCurrentView] = useState('doctors');
@@ -24,6 +25,7 @@ function App() {
     <ModalProvider>
       <div className="min-h-screen bg-gray-50">
         <Navbar />
+        <Toaster position="top-right" reverseOrder={false}/>
         
         {/* Navigation Tabs */}
         <div className="max-w-7xl mx-auto px-4 py-4">

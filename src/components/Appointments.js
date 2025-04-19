@@ -1,8 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { FaCalendarAlt, FaMapMarkerAlt, FaStethoscope, FaTimes } from 'react-icons/fa';
+import { toast } from 'react-hot-toast';
+import Modal from 'react-modal';
+
+// Bind modal to your appElement for accessibility
+Modal.setAppElement('#root');
+
+const customStyles = {
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backdropFilter: 'blur(1px)',
+    zIndex: 999
+  },
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    transform: 'translate(-50%, -50%)',
+    width: '400px',
+    padding: '24px',
+    borderRadius: '16px',
+    border: 'none',
+    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+  }
+};
 
 const Appointments = () => {
   const [appointments, setAppointments] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [appointmentToCancel, setAppointmentToCancel] = useState(null);
 
   useEffect(() => {
     // Load appointments from localStorage
@@ -10,16 +37,25 @@ const Appointments = () => {
     setAppointments(storedAppointments);
   }, []);
 
-  const handleCancel = (appointmentId) => {
-    // Confirm cancellation
-    if (window.confirm('Are you sure you want to cancel this appointment?')) {
-      // Filter out the cancelled appointment
-      const updatedAppointments = appointments.filter(app => app.id !== appointmentId);
-      
-      // Update state and localStorage
-      setAppointments(updatedAppointments);
-      localStorage.setItem('appointments', JSON.stringify(updatedAppointments));
-    }
+  const openCancelModal = (appointment) => {
+    setAppointmentToCancel(appointment);
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    // Filter out the cancelled appointment
+    const updatedAppointments = appointments.filter(app => app.id !== appointmentToCancel.id);
+    
+    // Update state and localStorage
+    setAppointments(updatedAppointments);
+    localStorage.setItem('appointments', JSON.stringify(updatedAppointments));
+
+    // Show success toast with doctor name
+    toast.success(`Appointment with ${appointmentToCancel.doctorName} has been cancelled`);
+    
+    // Close the modal
+    setIsModalOpen(false);
+    setAppointmentToCancel(null);
   };
 
   if (appointments.length === 0) {
@@ -80,7 +116,7 @@ const Appointments = () => {
 
             <div className="mt-4 flex justify-end">
               <button 
-                onClick={() => handleCancel(appointment.id)}
+                onClick={() => openCancelModal(appointment)}
                 className="px-4 py-2 text-sm text-red-600 hover:text-red-800 transition-colors flex items-center gap-2"
               >
                 <FaTimes />
@@ -90,6 +126,46 @@ const Appointments = () => {
           </div>
         ))}
       </div>
+
+      {/* Cancellation Confirmation Modal */}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        style={customStyles}
+        contentLabel="Cancel Appointment Confirmation"
+      >
+        <div className="text-center">
+          <FaTimes className="mx-auto text-red-500 text-4xl mb-4" />
+          <h2 className="text-2xl font-bold mb-4">Cancel Appointment</h2>
+          {appointmentToCancel && (
+            <div className="mb-6">
+              <p className="text-gray-600 mb-2">
+                Are you sure you want to cancel your appointment with
+              </p>
+              <p className="text-lg font-semibold text-gray-800">
+                {appointmentToCancel.doctorName}
+              </p>
+              <p className="text-gray-600 mt-2">
+                on {appointmentToCancel.date} at {appointmentToCancel.time}?
+              </p>
+            </div>
+          )}
+          <div className="flex justify-center gap-4">
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="px-6 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-colors"
+            >
+              No, Keep It
+            </button>
+            <button
+              onClick={handleCancel}
+              className="px-6 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+            >
+              Yes, Cancel It
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
