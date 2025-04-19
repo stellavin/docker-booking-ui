@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaCalendarAlt, FaMapMarkerAlt, FaStethoscope } from 'react-icons/fa';
+import { FaCalendarAlt, FaMapMarkerAlt, FaStethoscope, FaTimes } from 'react-icons/fa';
 
 const Appointments = () => {
   const [appointments, setAppointments] = useState([]);
@@ -9,6 +9,18 @@ const Appointments = () => {
     const storedAppointments = JSON.parse(localStorage.getItem('appointments') || '[]');
     setAppointments(storedAppointments);
   }, []);
+
+  const handleCancel = (appointmentId) => {
+    // Confirm cancellation
+    if (window.confirm('Are you sure you want to cancel this appointment?')) {
+      // Filter out the cancelled appointment
+      const updatedAppointments = appointments.filter(app => app.id !== appointmentId);
+      
+      // Update state and localStorage
+      setAppointments(updatedAppointments);
+      localStorage.setItem('appointments', JSON.stringify(updatedAppointments));
+    }
+  };
 
   if (appointments.length === 0) {
     return (
@@ -66,12 +78,13 @@ const Appointments = () => {
               </div>
             </div>
 
-            <div className="mt-4 flex justify-end space-x-3">
-              <button className="px-4 py-2 text-sm text-blue-600 hover:text-blue-800 transition-colors">
-                Reschedule
-              </button>
-              <button className="px-4 py-2 text-sm text-red-600 hover:text-red-800 transition-colors">
-                Cancel
+            <div className="mt-4 flex justify-end">
+              <button 
+                onClick={() => handleCancel(appointment.id)}
+                className="px-4 py-2 text-sm text-red-600 hover:text-red-800 transition-colors flex items-center gap-2"
+              >
+                <FaTimes />
+                Cancel Appointment
               </button>
             </div>
           </div>

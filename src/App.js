@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import DoctorCard from './components/DoctorCard';
 import Appointments from './components/Appointments';
-import { FaHome, FaCalendarAlt, FaSearch, FaStar } from 'react-icons/fa';
+import { FaHome, FaCalendarAlt, FaSearch, FaFilter, FaStar } from 'react-icons/fa';
 import { doctors, specialties } from './mockData';
 
 function App() {
@@ -10,6 +10,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSpecialty, setSelectedSpecialty] = useState('All');
   const [minRating, setMinRating] = useState(0);
+  const [showFilterPopup, setShowFilterPopup] = useState(false);
 
   const filteredDoctors = doctors.filter(doctor => {
     const matchesSearch = doctor.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -55,44 +56,69 @@ function App() {
         {currentView === 'doctors' ? (
           <>
             {/* Search and Filters */}
-            <div className="mb-8 space-y-4 md:space-y-0 md:flex md:items-center md:space-x-4">
-              {/* Search Bar */}
-              <div className="relative flex-1">
-                <FaSearch className="absolute left-3 top-3 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search doctors..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+            <div className="mb-8 flex items-center justify-between">
+              <div className="relative w-64">
+                <div className="flex items-center border-b-2 border-blue-500 pb-2">
+                  <FaSearch className="text-gray-400 mr-2" />
+                  <input
+                    type="text"
+                    placeholder="Search doctors..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="flex-1 outline-none bg-transparent"
+                  />
+                </div>
               </div>
+              
+              <div className="relative">
+                <button
+                  onClick={() => setShowFilterPopup(!showFilterPopup)}
+                  className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
+                >
+                  <FaFilter />
+                </button>
 
-              {/* Specialty Filter */}
-              <select
-                value={selectedSpecialty}
-                onChange={(e) => setSelectedSpecialty(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="All">All Specialties</option>
-                {specialties.map((specialty) => (
-                  <option key={specialty} value={specialty}>
-                    {specialty}
-                  </option>
-                ))}
-              </select>
+                {/* Filter Popup */}
+                {showFilterPopup && (
+                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg p-4 z-10">
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Specialty
+                        </label>
+                        <select
+                          value={selectedSpecialty}
+                          onChange={(e) => setSelectedSpecialty(e.target.value)}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                          <option value="All">All Specialties</option>
+                          {specialties.map((specialty) => (
+                            <option key={specialty} value={specialty}>
+                              {specialty}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
 
-              {/* Rating Filter */}
-              <select
-                value={minRating}
-                onChange={(e) => setMinRating(Number(e.target.value))}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value={0}>All Ratings</option>
-                <option value={4.5}>4.5+ Stars</option>
-                <option value={4}>4+ Stars</option>
-                <option value={3.5}>3.5+ Stars</option>
-              </select>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Minimum Rating
+                        </label>
+                        <select
+                          value={minRating}
+                          onChange={(e) => setMinRating(Number(e.target.value))}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                          <option value={0}>All Ratings</option>
+                          <option value={4.5}>4.5+ Stars</option>
+                          <option value={4}>4+ Stars</option>
+                          <option value={3.5}>3.5+ Stars</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Results Count */}
