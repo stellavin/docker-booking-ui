@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const BookingModal = ({ isOpen, onClose, doctorName, availability }) => {
+const BookingModal = ({ isOpen, onClose, doctorName, availability, doctorId, specialty, location }) => {
 
   const [selectedSlot, setSelectedSlot] = useState(null);
 
@@ -8,6 +8,25 @@ const BookingModal = ({ isOpen, onClose, doctorName, availability }) => {
 
   const handleConfirm = () => {
     if (selectedSlot) {
+      // Get existing appointments from localStorage
+      const existingAppointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+      
+      // Create new appointment
+      const newAppointment = {
+        id: Date.now(), // Use timestamp as unique ID
+        doctorId,
+        doctorName,
+        specialty,
+        date: new Date().toISOString().split('T')[0], // Today's date
+        time: selectedSlot,
+        location,
+        status: 'Upcoming'
+      };
+
+      // Add new appointment and save to localStorage
+      const updatedAppointments = [...existingAppointments, newAppointment];
+      localStorage.setItem('appointments', JSON.stringify(updatedAppointments));
+
       alert(`Appointment booked with ${doctorName} at ${selectedSlot}`);
       onClose();
     }

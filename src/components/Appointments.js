@@ -1,8 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaCalendarAlt, FaMapMarkerAlt, FaStethoscope } from 'react-icons/fa';
-import { appointments } from '../mockData';
 
 const Appointments = () => {
+  const [appointments, setAppointments] = useState([]);
+
+  useEffect(() => {
+    // Load appointments from localStorage
+    const storedAppointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+    setAppointments(storedAppointments);
+  }, []);
+
+  if (appointments.length === 0) {
+    return (
+      <div className="max-w-4xl mx-auto p-6">
+        <h1 className="text-2xl font-bold mb-6">My Appointments</h1>
+        <div className="bg-white rounded-lg shadow-md p-8 text-center">
+          <FaCalendarAlt className="mx-auto text-gray-400 text-5xl mb-4" />
+          <h2 className="text-xl font-semibold text-gray-700 mb-2">No Appointments Found</h2>
+          <p className="text-gray-500">
+            You haven't booked any appointments yet. Visit the Find Doctors section to schedule an appointment.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-6">My Appointments</h1>
