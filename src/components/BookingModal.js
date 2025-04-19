@@ -11,16 +11,6 @@ const BookingModal = ({ isOpen, onClose, doctorName, availability, doctorId, spe
       // Get existing appointments from localStorage
       const existingAppointments = JSON.parse(localStorage.getItem('appointments') || '[]');
       
-      // Check if the slot is already booked for this doctor
-      const isSlotBooked = existingAppointments.some(
-        appointment => appointment.doctorId === doctorId && appointment.time === selectedSlot
-      );
-
-      if (isSlotBooked) {
-        alert('This time slot is already booked. Please select another time.');
-        return;
-      }
-
       // Create new appointment
       const newAppointment = {
         id: Date.now(), // Use timestamp as unique ID
@@ -33,8 +23,15 @@ const BookingModal = ({ isOpen, onClose, doctorName, availability, doctorId, spe
         status: 'Upcoming'
       };
 
-      // Add new appointment and save to localStorage
-      const updatedAppointments = [...existingAppointments, newAppointment];
+      // Remove any existing appointment for this doctor
+      const updatedAppointments = existingAppointments.filter(
+        appointment => appointment.doctorId !== doctorId
+      );
+
+      // Add the new appointment
+      updatedAppointments.push(newAppointment);
+
+      // Save to localStorage
       localStorage.setItem('appointments', JSON.stringify(updatedAppointments));
 
       alert(`Appointment booked with ${doctorName} at ${selectedSlot}`);
@@ -42,11 +39,11 @@ const BookingModal = ({ isOpen, onClose, doctorName, availability, doctorId, spe
     }
   };
 
-  // Get existing appointments to check booked slots
+  // Get existing appointments to check current booking
   const existingAppointments = JSON.parse(localStorage.getItem('appointments') || '[]');
-  const bookedSlots = existingAppointments
-    .filter(appointment => appointment.doctorId === doctorId)
-    .map(appointment => appointment.time);
+  const currentBooking = existingAppointments.find(
+    appointment => appointment.doctorId === doctorId
+  );
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -63,28 +60,31 @@ const BookingModal = ({ isOpen, onClose, doctorName, availability, doctorId, spe
         
         <p className="text-gray-600 mb-4">Doctor: {doctorName}</p>
         
+        {currentBooking && (
+          <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded">
+            <p className="text-yellow-800">
+              You currently have an appointment at {currentBooking.time}. 
+              Booking a new time will replace your existing appointment.
+            </p>
+          </div>
+        )}
+        
         <div className="mb-6">
           <h3 className="text-lg font-semibold mb-2">Available Time Slots</h3>
           <div className="grid grid-cols-2 gap-2">
-            {availability?.map((slot) => {
-              const isBooked = bookedSlots.includes(slot);
-              return (
-                <button
-                  key={slot}
-                  onClick={() => !isBooked && setSelectedSlot(slot)}
-                  disabled={isBooked}
-                  className={`p-2 rounded border transition-colors duration-200 ${
-                    selectedSlot === slot
-                      ? 'bg-blue-500 text-white border-blue-500'
-                      : isBooked
-                        ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
-                        : 'border-gray-300 hover:border-blue-500'
-                  }`}
-                >
-                  {slot} {isBooked && '(Booked)'}
-                </button>
-              );
-            })}
+            {availability?.map((slot) => (
+              <button
+                key={slot}
+                onClick={() => setSelectedSlot(slot)}
+                className={`p-2 rounded border transition-colors duration-200 ${
+                  selectedSlot === slot
+                    ? 'bg-blue-500 text-white border-blue-500'
+                    : 'border-gray-300 hover:border-blue-500'
+                }`}
+              >
+                {slot}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -97,7 +97,7 @@ const BookingModal = ({ isOpen, onClose, doctorName, availability, doctorId, spe
               : 'bg-gray-300 text-gray-500 cursor-not-allowed'
           }`}
         >
-          Confirm Appointment
+          {currentBooking ? 'Replace Existing Appointment' : 'Confirm Appointment'}
         </button>
       </div>
     </div>
