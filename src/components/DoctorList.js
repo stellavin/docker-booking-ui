@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DoctorCard from "./DoctorCard";
 import { doctors, specialties } from "../mockData";
-import { SlidersHorizontal } from "lucide-react"; // filter icon
+import { SlidersHorizontal } from "lucide-react";
 
 const DoctorList = () => {
   const [searchTerm, setSearchTerm] = useState("");
