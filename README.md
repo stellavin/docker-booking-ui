@@ -14,8 +14,8 @@ Check out the live application at: [https://doctor-directory-98ec6.web.app/](htt
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone git@github.com:stellavin/docker-booking-ui.git
-   cd doctor-booking-ui
+   git clone git@github.com:stellavin/doctors-booking-ui.git
+   cd doctors-booking-ui
    ```
 
 2. Install dependencies:
