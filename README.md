@@ -55,12 +55,6 @@ This project was developed with the assistance of AI tools to:
 - Implement responsive design with TailwindCSS
 - Create mock data structures
 - Debug and fix issues
-
-Key AI-assisted features:
-- Modal component implementation
-- Local storage integration
-- Test suite generation
-- Code documentation
 - Error handling
 - UI/UX improvements
 
