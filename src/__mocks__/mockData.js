@@ -1,5 +1,3 @@
-import doctorImg from './assets/doctor.jpg';
-
 export const doctors = [
   {
     id: 1,
@@ -95,35 +93,3 @@ export const doctors = [
 
 export const specialties = [...new Set(doctors.map(doc => doc.specialty))];
 
-export const appointments = [
-  {
-    id: 1,
-    doctorId: 1,
-    doctorName: 'Dr. Sarah Johnson',
-    specialty: 'Cardiologist',
-    date: '2024-03-15',
-    time: '10:00 AM',
-    location: 'City Hospital, Floor 3',
-    status: 'Upcoming'
-  },
-  {
-    id: 2,
-    doctorId: 2,
-    doctorName: 'Dr. Michael Chen',
-    specialty: 'Dermatologist',
-    date: '2024-03-20',
-    time: '02:30 PM',
-    location: 'Skin Care Clinic, Room 101',
-    status: 'Upcoming'
-  },
-  {
-    id: 3,
-    doctorId: 3,
-    doctorName: 'Dr. Emily Wilson',
-    specialty: 'Pediatrician',
-    date: '2024-03-10',
-    time: '11:00 AM',
-    location: 'Children\'s Medical Center, Wing B',
-    status: 'Completed'
-  }
-];

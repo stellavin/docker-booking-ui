@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DoctorCard from "./DoctorCard";
-import { doctors, specialties } from "../mockData";
 import { SlidersHorizontal } from "lucide-react";
+import { specialties, doctors } from "../__mocks__/mockData";
 
 const DoctorList = () => {
   const [searchTerm, setSearchTerm] = useState("");

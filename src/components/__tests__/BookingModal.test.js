@@ -1,25 +1,51 @@
+/**
+ * @fileoverview Test suite for the BookingModal component
+ * @module components/__tests__/BookingModal.test
+ */
+
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { toast } from 'react-hot-toast';
 import BookingModal from '../BookingModal';
+import { mockData } from '../../__mocks__/mockData';
 
+/**
+ * @description Mock props for the BookingModal component
+ * @type {Object}
+ * @property {boolean} isOpen - Whether the modal is open
+ * @property {Function} onClose - Function to close the modal
+ * @property {string} doctorName - Name of the doctor
+ * @property {string} specialty - Doctor's specialty
+ * @property {string} location - Doctor's location
+ * @property {number} doctorId - Unique identifier for the doctor
+ * @property {string[]} availability - Array of available time slots
+ */
+const mockProps = {
+  isOpen: true,
+  onClose: jest.fn(),
+  doctorName: mockData[0].name,
+  specialty: mockData[0].specialty,
+  location: mockData[0].location,
+  doctorId: mockData[0].id,
+  availability: mockData[0].availability
+};
+
+/**
+ * @description Test suite for the BookingModal component
+ */
 describe('BookingModal', () => {
-  const mockProps = {
-    isOpen: true,
-    onClose: jest.fn(),
-    doctorName: "Dr. John Doe",
-    specialty: "Cardiologist",
-    location: "New York",
-    doctorId: 1,
-    availability: ["09:00 AM", "10:00 AM", "11:00 AM"]
-  };
-
+  /**
+   * @description Clears all mocks and localStorage before each test
+   */
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
   });
 
+  /**
+   * @description Tests if the modal renders with correct doctor information
+   */
   it('renders modal with doctor information', () => {
     render(<BookingModal {...mockProps} />);
     
@@ -28,6 +54,9 @@ describe('BookingModal', () => {
     expect(screen.getByText(mockProps.doctorName)).toBeInTheDocument();
   });
 
+  /**
+   * @description Tests if all available time slots are displayed correctly
+   */
   it('displays available time slots', () => {
     render(<BookingModal {...mockProps} />);
 
@@ -39,6 +68,9 @@ describe('BookingModal', () => {
     });
   });
 
+  /**
+   * @description Tests the appointment booking process and localStorage updates
+   */
   it('successfully books an appointment and updates localStorage', async () => {
     render(<BookingModal {...mockProps} />);
 
@@ -72,6 +104,9 @@ describe('BookingModal', () => {
     });
   });
 
+  /**
+   * @description Tests if the modal closes when the close button is clicked
+   */
   it('closes modal when close button is clicked', () => {
     render(<BookingModal {...mockProps} />);
 
@@ -82,6 +117,9 @@ describe('BookingModal', () => {
     expect(mockProps.onClose).toHaveBeenCalled();
   });
 
+  /**
+   * @description Tests the warning display when user has an existing appointment
+   */
   it('shows warning when user has existing appointment', () => {
     // Set up existing appointment in localStorage
     const existingAppointment = {

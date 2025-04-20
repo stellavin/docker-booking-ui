@@ -3,9 +3,9 @@ import Navbar from './components/Navbar';
 import DoctorCard from './components/DoctorCard';
 import Appointments from './components/Appointments';
 import { FaHome, FaCalendarAlt, FaSearch, FaFilter, FaStar } from 'react-icons/fa';
-import { doctors, specialties } from './mockData';
 import { ModalProvider } from './context/ModalContext';
 import { Toaster } from 'react-hot-toast';
+import { doctors, specialties } from './__mocks__/mockData';
 
 function App() {
   const [currentView, setCurrentView] = useState('doctors');
